@@ -25,14 +25,22 @@ object Analyzer {
 	def inspect[T]( c:T, relativeToTrait:Option[TraitType] = None )(implicit tt:TypeTag[T]) : AType = _inspect[T]( c.getClass, relativeToTrait )
 
 	// Used when we only have the class name
-	def inspectByName[T]( className:String, relativeToTrait:Option[TraitType] = None )(implicit tt:TypeTag[T]) : AType = _inspect[T]( Class.forName(className), relativeToTrait )
+	def inspectByName[T]( className:String, relativeToTrait:Option[TraitType] = None )(implicit tt:TypeTag[T]) : AType = 
+		if( className.contains('[') ) {
+			readyToEat.getOrElse(className, _inspect(Class.forName(tt.tpe.typeSymbol.fullName),None))
+			// .getOrElse(className, ErrType())  // If this is hint from a parameterized class, just retrieve it
+			// val found = readyToEat.getOrElse(className, ErrType())  // If this is hint from a parameterized class, just retrieve it
+			// found
+		}
+		else
+			_inspect[T]( Class.forName(className), relativeToTrait )
 
 	private def getParamSymbols( t:Type ) = 
 		LinkedHashMap.empty[String,AType] ++= t.typeSymbol.asClass.typeParams.map(_.name.toString).zip( t.typeArgs.map(ta => know(ta.dealias,None, true)) ).toMap
   
 	private def _inspect[T]( clazz:Class[_], relativeToTrait:Option[TraitType] )(implicit tt:TypeTag[T]) : AType = {
 		val ctype = if( relativeToTrait.isDefined ) 
-			cm.classSymbol(clazz).typeSignature  // no trait given--use the implied context
+			cm.classSymbol(clazz).typeSignature
 		else 
 			tt.tpe  // no relative trait given--use the implied context
 		know(ctype,relativeToTrait,false)
@@ -82,6 +90,9 @@ object Analyzer {
 					case sym if(sym.isCollection)        =>
 						CollType( sym.fullName, argMap.values.toList )
 
+					case sym if(t.typeSymbol.fullName == "co.blocke.scalajack.Deferred") =>
+						DeferredType(t.typeSymbol.fullName)
+
 					case sym if(sym.asClass.isTrait)     =>
 						val members  = t.members.filter(_.isTerm).map(_.asMethod).filter(_.isGetter)
 						// mappedParams = Map[ field_name -> field_type (AType) ]
@@ -100,8 +111,10 @@ object Analyzer {
 
 						// Create (and possibly cache) cc here in case we have self-referencing members or derivatives (e.g. collections)
 						// That way we don't spin out of control with stack overflow.  We then add members to the created cc.
-						val cc = CCType( sym.fullName, LinkedHashMap.empty[String,(AType,Option[Any])], argMap, None, collAnnoName.map(_.filterNot(_ == '"')) )
-						readyToEat.put(tag, cc)
+						val ttag = tag.replaceAllLiterally("[]","")
+						val fixedTag = if(!ttag.endsWith("]")) ttag + "[]" else ttag
+						val cc = CCType( sym.fullName, t, LinkedHashMap.empty[String,(AType,Option[Any])], argMap, None, collAnnoName.map(_.filterNot(_ == '"')) )
+						readyToEat.put(fixedTag, cc)
 
 						val mod     = sym.asClass.companion.asModule
 						val im      = cm.reflect(cm.reflectModule(mod).instance)

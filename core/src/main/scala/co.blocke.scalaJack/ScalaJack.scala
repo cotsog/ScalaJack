@@ -21,6 +21,7 @@ trait FlavorKind[S] {
 trait ScalaJack[S] {
 	this : JackFlavor[S] =>  // self-type part of Cake Pattern!
 	private val defaultVC = VisitorContext()
+
 	def read[T](src:S, vctx:VisitorContext=defaultVC)(implicit tt:TypeTag[T]) : T = {
 		implicit val vc = vctx
 		rr.read(src)

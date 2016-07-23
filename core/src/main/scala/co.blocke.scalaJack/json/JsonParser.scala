@@ -9,16 +9,14 @@ import scala.collection.mutable.{Map => MMap,ListBuffer => MList}
 
 case class JsonParser(sjTName:String, idx:JsonIndex, vctx:VisitorContext) {
 
+	val blobType = CollType("scala.collection.immutable.Map",List(PrimType("java.lang.String"), PrimType("scala.Any")))
+
 	def parse[T]()(implicit tt:TypeTag[T]) : T = {
 		var i = 0  // index into idx
 
-		// def _makeClass[U]( ccTypeFn : ()=>CCType, t:AType )(implicit ty:TypeTag[U]) = {
 		def _makeClass[U]( sjT:CCType, t:AType )(implicit ty:TypeTag[U]) = {
 			val objFields = MMap.empty[Any,Any]
 			if( idx.tokType(i-1) != JSobjStart ) throw new JsonParseException(s"Expected JSobjStart and found ${JsonTokens.toName(idx.tokType(i-1))} at token $i",0)
-			// i += 1
-
-			//val sjT = ccTypeFn()
 
 			// read key/value pairs
 			while( idx.tokType(i) != JSobjEnd && idx.tokType(i) != JSobjEndInList  && idx.tokType(i) != JSobjEndObjKey) {
@@ -47,7 +45,7 @@ case class JsonParser(sjTName:String, idx:JsonIndex, vctx:VisitorContext) {
 					if( !objClass.isDefined )
 						throw new JsonParseException(s"No type hint given for trait ${sj.name}",0)
 					val sjObjType = Analyzer.inspectByName(objClass.get.toString,Some(sj))
-					if( !sjObjType.isInstanceOf[CCType] ) throw new JsonParseException(s"Type hint $objClass does not specify a case class",0)
+					if( !sjObjType.isInstanceOf[CCType] ) throw new JsonParseException(s"Unknown case class type in trait hint: ${objClass.get}.  You may need to prime with ScalaJack.primeDeferred().",0)
 					sjObjType.asInstanceOf[CCType]
 				}
 				_makeClass(sjCC,t)
@@ -154,6 +152,11 @@ case class JsonParser(sjTName:String, idx:JsonIndex, vctx:VisitorContext) {
 				} else {
 					parseValueClassPrimitive(sj)
 				}
+
+			case sj:DeferredType =>
+				// i += 1
+				val ct = CollType("scala.collection.immutable.Map",List(PrimType("java.lang.String"), PrimType("scala.Any")))
+				DeferredBlob( _parse(blobType).asInstanceOf[Map[String,Any]] )
 
 			case sj:CustomType =>
 				val v = sj.readers("default")(idx.getToken(i))
