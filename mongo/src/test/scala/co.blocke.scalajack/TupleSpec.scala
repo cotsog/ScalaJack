@@ -27,7 +27,7 @@ class TupleSpec extends FunSpec {
 		val a = TT2("Larry",Map( "foo"->r,"hey"->r2 ))
 	}
 
-	describe("===================\n| -- Any Tests -- |\n===================") {
+	describe("=====================\n| -- Tuple Tests -- |\n=====================") {
 		it("Render Tests") {
 			sjM.render( ScalaMaster.a ) should be( MongoMaster.a )
 		}

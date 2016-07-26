@@ -10,6 +10,9 @@ import scala.collection.mutable.LinkedHashMap
  * The JSON parser will parse a deferred object will parse JSON content to a map of key/value pairs 
  * (the blob) and this BlobParser resolves the map into an actual (typed) value, i.e. materializes
  * the class, presumably when the runtime type is known and specified for a proper type cast.
+ * 
+ *  SEE THIS: http://stackoverflow.com/questions/32246734/scala-pattern-match-a-function-how-to-get-around-type-erasure
+ *
  */
 object BlobParser {
 	// def parse( t:AType, blob:Map[String,Any] ) = {
