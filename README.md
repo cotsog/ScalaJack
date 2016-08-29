@@ -1,7 +1,8 @@
-CI service | Status | Description
+Service | Status | Description
 -----------|--------|------------
-Travis | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Automated build/test
+License | [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=86400)]() | MIT
 Version | [![Bintray](https://img.shields.io/bintray/v/blocke/releases/scalajack.svg?maxAge=86400)](https://bintray.com/blocke/releases/scalajack) | Latest version
+Travis | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Automated build/test
 Codacity | [![Codacy branch grade](https://img.shields.io/codacy/grade/e27821fb6289410b8f58338c7e0bc686/master.svg?maxAge=2592000)](www.foo.com) | Test coverage
 
 # ScalaJack
