@@ -1,8 +1,8 @@
 CI service | Status | Description
 -----------|--------|------------
-Travis2 | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Stuff
-Travis | [![Build Status](https://travis-ci.org/gzoller/ScalaJack.png?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Linux container tests
-Version | [![Bintray](https://img.shields.io/bintray/v/blocke/releases/scalajack.svg?maxAge=86400)](https://bintray.com/blocke/releases/scalajack) | Latest version on Bintray
+Travis | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Automated build/test
+Version | [![Bintray](https://img.shields.io/bintray/v/blocke/releases/scalajack.svg?maxAge=86400)](https://bintray.com/blocke/releases/scalajack) | Latest version
+Codacity | [![Codacy branch grade](https://img.shields.io/codacy/grade/e27821fb6289410b8f58338c7e0bc686/master.svg?maxAge=2592000)](www.foo.com) | Test coverage
 
 # ScalaJack
 
