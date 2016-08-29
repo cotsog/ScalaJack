@@ -10,8 +10,9 @@ Advanced Features:
  - Rich configuration of trait type hint/value
  - Supports value classes
  - Pluggable reader/render support
+ - A *lot* more!
 
-# Status Report
+## Status Report
 
 Service | Status | Description
 -----------|--------|------------
@@ -22,7 +23,7 @@ Quality | [![Codacy branch grade](https://img.shields.io/codacy/grade/e27821fb62
 Testing | [![Coveralls branch](https://img.shields.io/coveralls/jekyll/jekyll/master.svg?maxAge=360)]() | Unit test coverage
 Benchmark | [![Benchmark](https://img.shields.io/badge/ops-22345-green.svg?maxAge=360)]() | Operations per second
 
-# Use
+## Use
 
 ScalaJack is extremely simple to use.
 
@@ -52,7 +53,7 @@ Now you're good to go!  Let's use ScalaJack in your project to serialize/de-seri
 
 Couldn't be simpler.
 
-### Trait support
+## Trait support
 ScalaJack can handle traits too.  To do this you'll need the help of a type hint in the JSON.  This tells ScalaJack what actual class to create in support of the trait.
 
 The default type hint is "_hint" but you can set whatever you want (very powerful for 3rd party JSON!) You set your own type hint with a VisitorContext object as shown below.   Don't forget to use the same type hint name for render and read.
@@ -102,7 +103,7 @@ val js = sj.render(pets,vc)
 ```
 Note how you get different type hints for specific traits.  This can be invaluable for advanced JSON parsing of 3rd party data.
 
-# Custom Value Class JSON
+## Custom Value Class JSON
 
 **NOTE:**  Custom value class JSON handling has changed since ScalaJack 4.7.  We no longer use the VisitorContext.
 
@@ -162,7 +163,7 @@ Some tips:
  - For rendering JSON note that quotes are included in    the result. 
    If your value was numeric or boolean you wouldn't need    these.
 
-# Custom Renderings for simple Java objects and Primitives
+## Custom Renderings for simple Java objects and Primitives
 
 This feature is similar to the previous section, Custom Value Class JSON, however it doesn't require you to wrap your objects in a value class.  Neato!
 
@@ -217,7 +218,7 @@ Notice something cool... The fields when and again are both basically DateTime v
 
 There is no default handling for a Java class like Charset!  You must always provide a CustomHandler for a Java type or ScalaJack will give you an error.
 
-# Parse Or Else for Traits
+## Parse Or Else for Traits
 
 Occasionally you may be parsing certain traits that may fail--and that's ok.  A good example might be something like this JSON for a Configuration object:
 ```JSON
@@ -255,7 +256,7 @@ val myModule = sj.read[Configuration](configJS,vc).find(_.name == "Something").a
 ```
 Using the VisitorContext (vc) during read with parseOrElse set, when ScalaJack parsed the _hint for com.foo.OtherModule it caught the ClassNotFound exception and noted that you asked to substitude the default of SomeDefault (which we don't care about here), which is what it returns so that the Configuration parse doesn't die.
 
-# MongoDB Persistence
+## MongoDB Persistence
 
 **NOTE:**  As of version 4.5.1 ScalaJack supports the new asynchronous MongoDB drivers for Scala, deprecating Casbah support.  If you need Casbah, version 4.4.6 is the last version supporting Casbah.
 
@@ -293,7 +294,7 @@ case class Sample( @DBKey _id:ObjectId, stuff:Int )
 Once you have your Document, use MongoDB's native Scala API as you normally would.
 
 
-# CSV Support
+## CSV Support
 CSV support is provided but by necessity is very limited.  CSV itself is not sufficiently expressive to handle complex data structures such as fields n a class that are themselves classes, collections, etc.  Therefore the following rules apply:
 
 * Case class only support
@@ -361,7 +362,7 @@ Let's look at these fields one-by-one.
 
 **hintValueRead/hintValueRender** maps allow you to use strings other than fully-qualified class names as a hint value.  This can be very valuable if the "discriminator" field for your JSON is provided by a 3rd party, or you'd like to hide the internal details of hint-handling from an external system.  They key to both maps is the fully-qualified trait name.  The value of hintValueRead is a function that accepts a String (the "friendly" hint value) and emits a fully-qualified class name.  In a simple implementation this may just prepend a package hierarchy, a la "com.foo.something", but it can be whatever you want.  hintValueRender goes the other way.  It's values are functions accepting a String (a fully-qualified class name) and emits a friendly hint value.
 
-# View/SpliceInto Feature
+## View/SpliceInto Feature
 
 If you've ever had the need to support view "projections" to/from a large master object, these
 functions will help.  Below is a contrived example of a User object that has some protected fields we don't want to easily project out (to make it save for a UI, for example):
@@ -392,7 +393,7 @@ You can also go the other way...incorporating data from a view object back into 
 val updatedUser = ScalaJack.spliceInto( user, newSafeUser ) // updatedUser will be of type User
 ```
 
-# Assumptions
+## Assumptions
 
 - Case classes (or traits for case classes) only
 - Options of value None are removed from generated JSON (e.g. from List or Map)
@@ -445,7 +446,7 @@ val updatedUser = ScalaJack.spliceInto( user, newSafeUser ) // updatedUser will 
 
 **New for v4.3!** Limited support of Any type is supported.  You can use primitives, Lists[Any], Maps[String,Any], and nested List/Map with Any.  Don't get too cute, though.  Type inference is pretty primal and limited to a few basic types: String, Int, Double, Boolean, and null.  See v4/AnyTests.scala for examples.
 
-# Why?
+## Why?
 
 The natual and expected question when developing a library for a function that already exists in the marketplace is "Why?".  Jackson has its own Scala module, and there is also a wonderful library called Salat that I've been using for years that does JSON parsing for Scala.  What does ScalaJack offer these two don't?
 
