@@ -1,13 +1,3 @@
-Service | Status | Description
------------|--------|------------
-License | [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=86400)]() | MIT
-Version | [![Bintray](https://img.shields.io/bintray/v/blocke/releases/scalajack.svg?maxAge=360)](https://bintray.com/blocke/releases/scalajack) | Latest version
-Travis | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Automated build/test
-Quality | [![Codacy branch grade](https://img.shields.io/codacy/grade/e27821fb6289410b8f58338c7e0bc686/master.svg?maxAge=2592000)](www.foo.com) | Static code analysis
-Testing | [![Coveralls branch](https://img.shields.io/coveralls/jekyll/jekyll/master.svg?maxAge=360)]() | Unit test coverage
-Benchmark | [![Benchmark](https://img.shields.io/badge/ops-22345-green.svg?maxAge=360)]() | Operations per second
-
-
 # ScalaJack
 
 Very fast JSON parser/generator for Scala case classes using Jackson that requires virtually no annotations
@@ -19,7 +9,18 @@ Advanced Features:
  - Handles default values for case class fields
  - Rich configuration of trait type hint/value
  - Supports value classes
- - Pluggable reader/render (for non-JSON encodings in the future)
+ - Pluggable reader/render support
+
+# Status Report
+
+Service | Status | Description
+-----------|--------|------------
+License | [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=86400)]() | MIT
+Version | [![Bintray](https://img.shields.io/bintray/v/blocke/releases/scalajack.svg?maxAge=360)](https://bintray.com/blocke/releases/scalajack) | Latest version
+Travis | [![Build Status](https://img.shields.io/travis/gzoller/ScalaJack.svg?branch=master)](https://travis-ci.org/gzoller/ScalaJack) | Automated build/test
+Quality | [![Codacy branch grade](https://img.shields.io/codacy/grade/e27821fb6289410b8f58338c7e0bc686/master.svg?maxAge=2592000)](www.foo.com) | Static code analysis
+Testing | [![Coveralls branch](https://img.shields.io/coveralls/jekyll/jekyll/master.svg?maxAge=360)]() | Unit test coverage
+Benchmark | [![Benchmark](https://img.shields.io/badge/ops-22345-green.svg?maxAge=360)]() | Operations per second
 
 # Use
 
